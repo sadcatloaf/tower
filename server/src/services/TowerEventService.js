@@ -11,5 +11,10 @@ class TowerEventService {
         const events = await dbContext.TowerEvent.find().populate('creator', 'name coverImg')
         return events
     }
+
+    async getEventsById(eventId) {
+        const event = (await dbContext.TowerEvent.findById(eventId)).populate('creator', 'name coverImg')
+        return event
+    }
 }
 export const towerEventService = new TowerEventService()
