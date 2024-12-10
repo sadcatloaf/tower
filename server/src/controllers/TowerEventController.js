@@ -1,9 +1,12 @@
+import { Auth0Provider } from "@bcwdev/auth0provider";
+import { towerEventService } from "../services/TowerEventService";
 import BaseController from "../utils/BaseController";
 
 export class TowerEventController extends BaseController {
     constructor() {
         super('api/events')
         this.router
+            .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createTowerEvent)
     }
 
@@ -14,9 +17,12 @@ export class TowerEventController extends BaseController {
      * @param {import("express").NextFunction} next
      */
 
-    createTowerEvent(request, response, next) {
+    async createTowerEvent(request, response, next) {
         try {
-            response.send("Yes, post works")
+            const eventData = request.body
+            eventData.creatorId = request.userInfo.id
+            const event = await towerEventService.createTowerEvent(eventData)
+            response.send(event)
         } catch (error) {
             next(error)
         }
