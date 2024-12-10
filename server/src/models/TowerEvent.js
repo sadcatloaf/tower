@@ -19,10 +19,9 @@ export const TowerEventSchema = new Schema(
     }
 )
 
-
 TowerEventSchema.virtual('creator', {
     localField: 'creatorId',
     ref: 'Account',
-    foreignField: 'id',
+    foreignField: '_id',
     justOne: true
 })
