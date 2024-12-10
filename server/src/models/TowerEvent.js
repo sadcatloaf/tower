@@ -18,3 +18,11 @@ export const TowerEventSchema = new Schema(
         toJSON: { virtuals: true }
     }
 )
+
+
+TowerEventSchema.virtual('creator', {
+    localField: 'creatorId',
+    ref: 'Account',
+    foreignField: 'id',
+    justOne: true
+})
