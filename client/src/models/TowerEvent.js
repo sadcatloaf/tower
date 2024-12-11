@@ -13,6 +13,7 @@ export class Event {
         this.startDate = data.startDate
         this.type = data.type
         this.updatedAt = data.updatedAt
+        this.creator = data.creator
     }
 
 }

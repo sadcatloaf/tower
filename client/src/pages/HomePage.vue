@@ -52,7 +52,7 @@ onMounted(() => {
       </div>
 
       <div v-for="event in events" :key="event.id" class="col-3 m-3">
-        <TowerEventCard :events="event" />
+        <TowerEventCard :event="event" />
       </div>
 
     </section>
