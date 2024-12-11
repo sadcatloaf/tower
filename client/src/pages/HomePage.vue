@@ -1,9 +1,12 @@
 <script setup>
+import { AppState } from '@/AppState';
+import TowerEventCard from '@/components/TowerEventCard.vue';
 import { towerEventService } from '@/services/TowerEventService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 
+const events = computed(() => AppState.events)
 
 onMounted(() => {
   getEvents()
@@ -35,15 +38,23 @@ onMounted(() => {
             people who share it on Tower Events are happening every day-log in to join the fun</p>
         </div>
       </div>
-    </section>
-    <section class="row m-3">
-      <h3>How Tower works</h3>
-    </section>
-    <section class="row m-3">
-      <h3>Explore top categories</h3>
-    </section>
-    <section class="row m-3">
-      <h3>Upcoming Events</h3>
+
+      <div class=" m-3">
+        <h3>How Tower works</h3>
+      </div>
+
+      <div class=" m-3">
+        <h3>Explore top categories</h3>
+      </div>
+
+      <div class=" m-3">
+        <h3>Upcoming Events</h3>
+      </div>
+
+      <div v-for="event in events" :key="event.id" class="col-3 m-3">
+        <TowerEventCard :events="event" />
+      </div>
+
     </section>
   </div>
 </template>
