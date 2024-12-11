@@ -21,7 +21,8 @@ function toggleTheme() {
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="/img/cw-logo.png" height="45" />
+        <img alt="head" src="https://cdn.iconscout.com/icon/premium/png-512-thumb/giraffe-11-335563.png?f=webp&w=512"
+          height="45" />
       </div>
     </router-link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -32,7 +33,7 @@ function toggleTheme() {
       <ul class="navbar-nav me-auto">
         <li>
           <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
+            Tower
           </router-link>
         </li>
       </ul>
