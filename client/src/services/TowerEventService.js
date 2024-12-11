@@ -13,7 +13,7 @@ class TowerEventService {
     }
 
     async getEventsById(eventId) {
-        const response = await api.get(`spi/events/${eventId}`)
+        const response = await api.get(`api/events/${eventId}`)
         logger.log('Got Events by Id', response.data)
         const event = new Event(response.data)
         AppState.activeEvent = event
