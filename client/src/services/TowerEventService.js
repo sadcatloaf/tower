@@ -12,6 +12,13 @@ class TowerEventService {
         AppState.events = events
     }
 
+    async getEventsById(eventId) {
+        const response = await api.get(`spi/events/${eventId}`)
+        logger.log('Got Events by Id', response.data)
+        const event = new Event(response.data)
+        AppState.activeEvent = event
+    }
+
 }
 
 export const towerEventService = new TowerEventService()
