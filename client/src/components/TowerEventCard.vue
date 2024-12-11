@@ -10,7 +10,9 @@ defineProps({
 
 <template>
     <div>
-        <img class="img-fluid" :src="event.coverImg" alt="event.creator.name">
+        <router-link :to="{ name: 'Event', params: { eventId: event.id } }">
+            <img class="img-fluid" :src="event.coverImg" alt="event.creator.name">
+        </router-link>
         <span>{{ event.name }}</span>
         <span>{{ event.creator.name }}</span>
         <span>{{ event.startDate }} - {{ event.location }}</span>
