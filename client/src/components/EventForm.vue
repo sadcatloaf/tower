@@ -4,36 +4,41 @@ import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
 import { Modal } from 'bootstrap';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 
 const categories = ['concert', 'convention', 'sport', 'digital']
 
 const editableEventData = ref({
-    creatorImg: '',
+    coverImg: '',
     name: '',
     location: '',
     description: '',
     capacity: '',
     startDate: '',
-    type: '',
     category: ''
 })
 // name, description, capacity, coverImg, location, startDate, capacity, type
 
+const router = useRouter()
+
 async function createEvent() {
     try {
-        await towerEventService.createEvent(editableEventData.value)
+        const event = await towerEventService.createEvent(editableEventData.value)
+
         editableEventData.value = {
-            creatorImg: '',
+            coverImg: '',
             name: '',
             location: '',
             description: '',
             capacity: '',
             startDate: '',
-            type: '',
             category: ''
         }
+
         Modal.getInstance('#eventModal').hide()
+
+        router.push({ name: 'TowerEvent', params: { eventId: event.id } })
     }
     catch (error) {
         Pop.meow(error);
@@ -50,23 +55,18 @@ async function createEvent() {
             <label for="name">Event Name</label>
         </div>
         <div class="form-floating mb-3">
-            <input v-model="editableEventData.name" type="text" class="form-control" id="type"
-                placeholder="Event Type..." required minlength="3" maxlength="25">
-            <label for="type">Event Type</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input v-model="editableEventData.name" type="text" class="form-control" id="startDate"
+            <input v-model="editableEventData.startDate" type="text" class="form-control" id="startDate"
                 placeholder="Event StartDate..." required minlength="3" maxlength="25">
             <label for="startDate">Start Date</label>
         </div>
         <div class="form-floating mb-3">
-            <input v-model="editableEventData.name" type="text" class="form-control" id="location"
+            <input v-model="editableEventData.location" type="text" class="form-control" id="location"
                 placeholder="Event Location..." required minlength="3" maxlength="25">
-            <label for="location">Event Title</label>
+            <label for="location">Event Location</label>
         </div>
         <div class="form-floating mb-3">
-            <input v-model="editableEventData.name" type="text" class="form-control" id="capacity"
-                placeholder="Event Capacity..." required minlength="3" maxlength="25">
+            <input v-model="editableEventData.capacity" type="number" class="form-control" id="capacity"
+                placeholder="Event Capacity..." required minlength="3" maxlength="5000">
             <label for="capacity">Capacity</label>
         </div>
         <div class="form-floating mb-3">
@@ -75,7 +75,7 @@ async function createEvent() {
             <label for="description">Event Description</label>
         </div>
         <div class="form-floating mb-3">
-            <input v-model="editableEventData.creatorImg" type="url" class="form-control" id="coverImg"
+            <input v-model="editableEventData.coverImg" type="url" class="form-control" id="coverImg"
                 placeholder="Album CoverImg..." required maxlength="2000">
             <label for="coverImg">Event CoverImg</label>
         </div>
@@ -83,7 +83,8 @@ async function createEvent() {
             <select v-model="editableEventData.category" class="form-select text-capitalize" id="category"
                 aria-label="Event Category" required>
                 <option selected value="" disabled>Choose a category</option>
-                <option v-for="category in categories" :key="category" :value="category" class="text-capitalize">
+                <option v-for="category in categories" :key="'option-' + category" :value="category"
+                    class="text-capitalize">
                     {{ category }}
                 </option>
             </select>

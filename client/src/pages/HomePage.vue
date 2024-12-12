@@ -5,9 +5,24 @@ import TowerEventCard from '@/components/TowerEventCard.vue';
 import { towerEventService } from '@/services/TowerEventService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
-const events = computed(() => AppState.events)
+const events = computed(() => {
+  if (activeFilterCategory.value == 'all') return AppState.events
+  return AppState.events.filter(event => event.type == activeFilterCategory.value)
+})
+
+const activeFilterCategory = ref('all')
+
+const categories = [
+
+  { name: 'all', icon: 'mdi mdi-all-inclusive' },
+  { name: 'concerts', icon: 'mdi mdi-guitar-electric' },
+  { name: 'Conventions', icon: 'mdi mdi-account-multiple' },
+  { name: 'Sports', icon: 'mdi mdi-soccer' },
+  { name: 'Digital', icon: 'mdi mdi-television' }
+
+]
 
 onMounted(() => {
   getEvents()
@@ -24,6 +39,8 @@ onMounted(() => {
 
   }
 })
+
+
 
 
 </script>
@@ -46,8 +63,11 @@ onMounted(() => {
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventModal">Create Event</button>
       </div>
 
-      <div class=" m-3">
-        <h3>Explore top categories</h3>
+      <div class="d-flex m-3 p-2 text-center">
+        <div v-for="category in categories" :key="'filter-' + category.name" class=" m-3" role="button">
+          <span :class="category.icon"></span>
+          <h3>{{ category.name }}</h3>
+        </div>
       </div>
 
       <div class=" m-3">
