@@ -2,6 +2,7 @@
 import { towerEventService } from '@/services/TowerEventService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
+import { Modal } from 'bootstrap';
 import { ref } from 'vue';
 
 
@@ -22,6 +23,17 @@ const editableEventData = ref({
 async function createEvent() {
     try {
         await towerEventService.createEvent(editableEventData.value)
+        editableEventData.value = {
+            creatorImg: '',
+            name: '',
+            location: '',
+            description: '',
+            capacity: '',
+            startDate: '',
+            type: '',
+            category: ''
+        }
+        Modal.getInstance('#eventModal').hide()
     }
     catch (error) {
         Pop.meow(error);

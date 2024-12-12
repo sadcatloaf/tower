@@ -1,16 +1,16 @@
 <script setup>
-import { Event } from '@/models/TowerEvent';
+import { TowerEvent } from '@/models/TowerEvent';
 
 
 defineProps({
-    event: { type: Event, required: true }
+    event: { type: TowerEvent, required: true }
 })
 
 </script>
 
 <template>
     <div>
-        <router-link :to="{ name: 'Event', params: { eventId: event.id } }">
+        <router-link :to="{ name: 'TowerEvent', params: { eventId: event.id } }">
             <img class="img-fluid" :src="event.coverImg" alt="event.creator.name">
         </router-link>
         <span>{{ event.name }}</span>
