@@ -39,8 +39,10 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class=" m-3">
+      <div class="col-12 m-3">
         <h3>How Tower works</h3>
+
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventModal">Create Event</button>
       </div>
 
       <div class=" m-3">
