@@ -1,6 +1,7 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import { towerEventService } from "../services/TowerEventService";
 import BaseController from "../utils/BaseController";
+import { ticketService } from "../services/TicketService";
 
 export class TowerEventController extends BaseController {
     constructor() {
@@ -8,6 +9,7 @@ export class TowerEventController extends BaseController {
         this.router
             .get('', this.getAllEvents)
             .get('/:eventId', this.getEventsById)
+            .get('/:eventId/tickets', this.getTicketsById)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .put('/:eventId', this.editEvents)
             .post('', this.createTowerEvent)
@@ -91,6 +93,23 @@ export class TowerEventController extends BaseController {
             const eventId = request.params.eventId
             const event = await towerEventService.cancelEvent(eventId)
             response.send(event)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    /**
+            * flip the archived boolean using supplied id from route params
+            * @param {import("express").Request} request
+            * @param {import("express").Response} response
+            * @param {import("express").NextFunction} next
+            */
+
+    async getTicketsById(request, response, next) {
+        try {
+            const eventId = request.params.eventId
+            const tickets = await ticketService.getTicketsById(eventId)
+            response.send(tickets)
         } catch (error) {
             next(error)
         }

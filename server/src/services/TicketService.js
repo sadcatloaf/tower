@@ -15,6 +15,11 @@ class TicketService {
 
 
     }
+
+    async getTicketsById(eventId) {
+        const tickets = await dbContext.Ticket.find({ eventId: eventId }).populate('profile', 'name coverImg')
+        return tickets
+    }
 }
 
 export const ticketService = new TicketService()
