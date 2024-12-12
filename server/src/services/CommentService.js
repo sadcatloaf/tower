@@ -14,5 +14,10 @@ class CommentService {
         await comment.populate('creator', 'name coverImg')
         return comment
     }
+
+    async getCommentsByEventId(eventId) {
+        const comments = await dbContext.Comment.find({ eventId: eventId }).populate('creator', 'name coverImg')
+        return comments
+    }
 }
 export const commentService = new CommentService()

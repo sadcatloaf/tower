@@ -2,6 +2,7 @@ import { Auth0Provider } from "@bcwdev/auth0provider";
 import { towerEventService } from "../services/TowerEventService";
 import BaseController from "../utils/BaseController";
 import { ticketService } from "../services/TicketService";
+import { commentService } from "../services/CommentService";
 
 export class TowerEventController extends BaseController {
     constructor() {
@@ -10,6 +11,7 @@ export class TowerEventController extends BaseController {
             .get('', this.getAllEvents)
             .get('/:eventId', this.getEventsById)
             .get('/:eventId/tickets', this.getTicketsById)
+            .get('/:eventId/comments', this.getCommentsByEventId)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .put('/:eventId', this.editEvents)
             .post('', this.createTowerEvent)
@@ -21,7 +23,7 @@ export class TowerEventController extends BaseController {
      * @param {import("express").Request} request
      * @param {import("express").Response} response
      * @param {import("express").NextFunction} next
-     */
+    */
 
     async createTowerEvent(request, response, next) {
         try {
@@ -40,7 +42,7 @@ export class TowerEventController extends BaseController {
      * @param {import("express").Request} request
      * @param {import("express").Response} response
      * @param {import("express").NextFunction} next
-     */
+    */
 
     async getAllEvents(request, response, next) {
         try {
@@ -56,7 +58,7 @@ export class TowerEventController extends BaseController {
         * @param {import("express").Request} request
         * @param {import("express").Response} response
         * @param {import("express").NextFunction} next
-        */
+    */
 
     async getEventsById(request, response, next) {
         try {
@@ -82,11 +84,11 @@ export class TowerEventController extends BaseController {
     }
 
     /**
-            * flip the archived boolean using supplied id from route params
-            * @param {import("express").Request} request
-            * @param {import("express").Response} response
+     * flip the archived boolean using supplied id from route params
+     * @param {import("express").Request} request
+     * @param {import("express").Response} response
             * @param {import("express").NextFunction} next
-            */
+    */
 
     async cancelEvent(request, response, next) {
         try {
@@ -110,6 +112,24 @@ export class TowerEventController extends BaseController {
             const eventId = request.params.eventId
             const tickets = await ticketService.getTicketsById(eventId)
             response.send(tickets)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    /**
+            * 
+            * @param {import("express").Request} request
+            * @param {import("express").Response} response
+            * @param {import("express").NextFunction} next
+            */
+
+
+    async getCommentsByEventId(request, response, next) {
+        try {
+            const eventId = request.params.eventId
+            const comments = await commentService.getCommentsByEventId(eventId)
+            response.send(comments)
         } catch (error) {
             next(error)
         }
