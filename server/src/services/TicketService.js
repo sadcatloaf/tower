@@ -20,6 +20,19 @@ class TicketService {
         const tickets = await dbContext.Ticket.find({ eventId: eventId }).populate('profile', 'name coverImg')
         return tickets
     }
+
+    async deleteTicket(ticketId, userId) {
+        const ticketToDelete = await dbContext.Ticket.findById(ticketId)
+
+        if (ticketToDelete == null) {
+            throw new Error(`Invalid ticket Id ${ticketId}`)
+        }
+        if (ticketToDelete.accountId != userId) {
+            throw new Error("You are not allowed to delete someone elses ticket")
+        }
+        await ticketToDelete.deleteOne()
+        return 'No longer has a ticket'
+    }
 }
 
 export const ticketService = new TicketService()
