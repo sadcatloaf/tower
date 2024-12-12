@@ -13,7 +13,7 @@ const routes = [
   },
   {
     path: '/event/:eventId',
-    name: 'Event',
+    name: 'TowerEvent',
     component: loadPage('TowerEventPage')
   },
   {

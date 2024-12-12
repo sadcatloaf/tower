@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState';
+import ModalWrapper from '@/components/ModalWrapper.vue';
 import TowerEventCard from '@/components/TowerEventCard.vue';
 import { towerEventService } from '@/services/TowerEventService';
 import { logger } from '@/utils/Logger';
@@ -59,6 +60,7 @@ onMounted(() => {
 
     </section>
   </div>
+  <ModalWrapper />
 </template>
 
 <style scoped lang="scss">
