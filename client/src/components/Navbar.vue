@@ -24,6 +24,9 @@ function toggleTheme() {
         <img alt="head" src="https://cdn.iconscout.com/icon/premium/png-512-thumb/giraffe-11-335563.png?f=webp&w=512"
           height="45" />
       </div>
+      <div class="m-2">
+        <h3>Tower</h3>
+      </div>
     </router-link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
