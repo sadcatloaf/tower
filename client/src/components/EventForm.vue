@@ -16,7 +16,7 @@ const editableEventData = ref({
     description: '',
     capacity: '',
     startDate: '',
-    category: ''
+    type: ''
 })
 // name, description, capacity, coverImg, location, startDate, capacity, type
 
@@ -33,7 +33,7 @@ async function createEvent() {
             description: '',
             capacity: '',
             startDate: '',
-            category: ''
+            type: ''
         }
 
         Modal.getInstance('#eventModal').hide()
@@ -80,7 +80,8 @@ async function createEvent() {
             <label for="coverImg">Event CoverImg</label>
         </div>
         <div class="form-floating mb-3">
-            <select v-model="editableEventData.category" class="form-select text-capitalize" id="category"
+            <!-- TODO - Change the name to type instead of category -->
+            <select v-model="editableEventData.type" class="form-select text-capitalize" id="category"
                 aria-label="Event Category" required>
                 <option selected value="" disabled>Choose a category</option>
                 <option v-for="category in categories" :key="'option-' + category" :value="category"

@@ -17,10 +17,10 @@ const activeFilterCategory = ref('all')
 const categories = [
 
   { name: 'all', icon: 'mdi mdi-all-inclusive' },
-  { name: 'concerts', icon: 'mdi mdi-guitar-electric' },
-  { name: 'Conventions', icon: 'mdi mdi-account-multiple' },
-  { name: 'Sports', icon: 'mdi mdi-soccer' },
-  { name: 'Digital', icon: 'mdi mdi-television' }
+  { name: 'concert', icon: 'mdi mdi-guitar-electric' },
+  { name: 'convention', icon: 'mdi mdi-account-multiple' },
+  { name: 'sport', icon: 'mdi mdi-soccer' },
+  { name: 'digital', icon: 'mdi mdi-television' }
 
 ]
 
@@ -64,9 +64,11 @@ onMounted(() => {
       </div>
 
       <div class="d-flex m-3 p-2 text-center">
-        <div v-for="category in categories" :key="'filter-' + category.name" class=" m-3" role="button">
-          <span :class="category.icon"></span>
-          <h3>{{ category.name }}</h3>
+        <div v-for="category in categories" :key="'filter-' + category.name" class=" m-3">
+          <div @click="activeFilterCategory = category.name" role="button">
+            <span :class="category.icon"></span>
+            <h3>{{ category.name }}</h3>
+          </div>
         </div>
       </div>
 
