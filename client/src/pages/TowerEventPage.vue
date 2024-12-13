@@ -73,16 +73,18 @@ async function createTicket() {
                 <p>{{ event.startDate }}</p>
                 <h4>Location</h4>
                 <p>{{ event.location }}</p>
+                <h4>Event Capacity</h4>
+                <p>{{ event.capacity }}</p>
             </div>
             <div class="col-4 m-3">
                 <div>
                     <h4>Interested in going?</h4>
                     <p>Grab a ticket!</p>
                     <button @click="createTicket()" class="btn btn-primary m-3">Attend</button>
-                    <p>{{ event.capacity }}</p>
                 </div>
                 <div>
                     <h4>Attendees</h4>
+                    <b>{{ ticketAttendees.length }}</b>
                     <!-- NOTE this will be the amount of attendees in your Event page. -->
                     <div v-for="ticketAttendee in ticketAttendees" :key="ticketAttendee.id" class="col-4 mb-3">
                         <img :src="ticketAttendee.profile.picture" :alt="ticketAttendee.profile.name"
