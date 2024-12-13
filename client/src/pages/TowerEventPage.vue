@@ -24,23 +24,24 @@ async function getEventsById() {
         Pop.meow(error);
         logger.error('[Getting Events by Id]', error)
     }
-
-    async function cancelEvent() {
-        try {
-            const yes = await Pop.confirm(`Are you sure that you want to cancel ${event.value.name} event?`, "It's an awesome event", "Yes I am sure!")
-
-            if (!yes) return
-
-            const eventId = route.params.eventId
-            await towerEventService.cancelEvent(eventId)
-        }
-        catch (error) {
-            Pop.meow(error);
-            logger.error('[Canceling Event]', error)
-        }
-    }
-
 }
+
+async function cancelEvent() {
+    try {
+        const yes = await Pop.confirm(`Are you sure that you want to cancel ${event.value.name} event?`, "It's an awesome event", "Yes I am sure!")
+
+        if (!yes) return
+
+        const eventId = route.params.eventId
+        await towerEventService.cancelEvent(eventId)
+    }
+    catch (error) {
+        Pop.meow(error);
+        logger.error('[Canceling Event]', error)
+    }
+}
+
+
 </script>
 
 <template>
@@ -48,14 +49,15 @@ async function getEventsById() {
         <section class="row">
             <div class="col-mb-12">
                 <img :src="event.coverImg" alt="event.creator.name" class="img-fluid">
+                <i v-if="event.isCanceled" class="mdi mdi-alert text-warning" :title="`${event.name} is canceled`"></i>
             </div>
         </section>
         <section class="row">
-            <div class="col-7">
-                <h2 class="m-3">{{ event.name }}</h2>
+            <div class="col-7 m-3">
+                <h2>{{ event.name }}</h2>
                 <p>{{ event.description }}</p>
                 <h4>Date and Time</h4>
-                <p>{{ event.createdAt }}</p>
+                <p>{{ event.startDate }}</p>
                 <h4>Location</h4>
                 <p>{{ event.location }}</p>
             </div>
@@ -63,12 +65,17 @@ async function getEventsById() {
                 <div>
                     <h4>Interested in going?</h4>
                     <p>Grab a ticket!</p>
-                    <button class="btn btn-primary">Attend</button>
+                    <button class="btn btn-primary m-3">Attend</button>
                 </div>
                 <div>
-                    <h4>Attendees</h4>
-                    <div>list of people</div>
+                    <div class="m-3">
+                        <h4>Attendees</h4>
+                        <p>{{ event.capacity }}</p>
+                    </div>
                 </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <span @click="cancelEvent()" class="bg-danger rounded-pill p-2" role="button">Cancel</span>
             </div>
         </section>
     </div>

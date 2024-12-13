@@ -55,6 +55,7 @@ async function createEvent() {
             <label for="name">Event Name</label>
         </div>
         <div class="form-floating mb-3">
+            <!-- FIXME use a date picker here -->
             <input v-model="editableEventData.startDate" type="text" class="form-control" id="startDate"
                 placeholder="Event StartDate..." required minlength="3" maxlength="25">
             <label for="startDate">Start Date</label>

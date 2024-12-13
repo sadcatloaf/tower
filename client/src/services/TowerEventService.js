@@ -5,8 +5,11 @@ import { TowerEvent } from "@/models/TowerEvent.js";
 
 
 class TowerEventService {
-    cancelEvent(eventId) {
-        throw new Error('Method not implemented.');
+    async cancelEvent(eventId) {
+        const response = await api.delete(`api/event/${eventId}`)
+        logger.log('Canceled Event', response.data)
+        const event = new TowerEvent(response.data)
+        AppState.activeEvent = event
     }
     async getEvents() {
         const response = await api.get('api/events')
