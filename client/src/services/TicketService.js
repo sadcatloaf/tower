@@ -11,6 +11,13 @@ class TicketService {
         const tickets = response.data.map(ticketPOJO => new Ticket(ticketPOJO))
         AppState.tickets = tickets
     }
+
+    async createTicket(eventData) {
+        const response = await api.post('api/tickets', eventData)
+        logger.log('Created Ticket', response.data)
+        const ticket = new Ticket(response.data)
+        AppState.ticketAttendees.push(ticket)
+    }
 }
 
 export const ticketService = new TicketService()

@@ -1,3 +1,4 @@
+import { Account } from "./Account.js"
 import { TowerEvent } from "./TowerEvent.js"
 
 
@@ -9,6 +10,7 @@ export class Ticket {
         this.createdAt = data.createdAt
         this.updatedAt = data.updatedAt
         this.event = data.event ? new TowerEvent(data.event) : null
+        this.profile = data.profile ? new Account(data.profile) : null
     }
 
 }

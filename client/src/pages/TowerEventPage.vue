@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState';
+import { ticketService } from '@/services/TicketService';
 import { towerEventService } from '@/services/TowerEventService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
@@ -8,6 +9,7 @@ import { useRoute } from 'vue-router';
 
 
 const event = computed(() => AppState.activeEvent)
+const ticketAttendees = computed(() => AppState.ticketAttendees)
 
 const route = useRoute()
 
@@ -41,6 +43,17 @@ async function cancelEvent() {
     }
 }
 
+async function createTicket() {
+    try {
+        const eventData = { eventId: route.params.eventId }
+        await ticketService.createTicket(eventData)
+    }
+    catch (error) {
+        Pop.meow(error);
+        logger.error('[Creating Ticket]', error)
+    }
+}
+
 
 </script>
 
@@ -65,12 +78,15 @@ async function cancelEvent() {
                 <div>
                     <h4>Interested in going?</h4>
                     <p>Grab a ticket!</p>
-                    <button class="btn btn-primary m-3">Attend</button>
+                    <button @click="createTicket()" class="btn btn-primary m-3">Attend</button>
+                    <p>{{ event.capacity }}</p>
                 </div>
                 <div>
-                    <div class="m-3">
-                        <h4>Attendees</h4>
-                        <p>{{ event.capacity }}</p>
+                    <h4>Attendees</h4>
+                    <!-- NOTE this will be the amount of attendees in your Event page. -->
+                    <div v-for="ticketAttendee in ticketAttendees" :key="ticketAttendee.id" class="col-4 mb-3">
+                        <img :src="ticketAttendee.profile.picture" :alt="ticketAttendee.profile.name"
+                            class="img-fluid rounded" :title="ticketAttendee.profile.name">
                     </div>
                 </div>
             </div>
