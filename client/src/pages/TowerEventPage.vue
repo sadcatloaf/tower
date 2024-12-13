@@ -25,6 +25,21 @@ async function getEventsById() {
         logger.error('[Getting Events by Id]', error)
     }
 
+    async function cancelEvent() {
+        try {
+            const yes = await Pop.confirm(`Are you sure that you want to cancel ${event.value.name} event?`, "It's an awesome event", "Yes I am sure!")
+
+            if (!yes) return
+
+            const eventId = route.params.eventId
+            await towerEventService.cancelEvent(eventId)
+        }
+        catch (error) {
+            Pop.meow(error);
+            logger.error('[Canceling Event]', error)
+        }
+    }
+
 }
 </script>
 

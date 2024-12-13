@@ -19,5 +19,18 @@ class CommentService {
         const comments = await dbContext.Comment.find({ eventId: eventId }).populate('creator', 'name coverImg')
         return comments
     }
+
+    async deleteComment(commentId, userId) {
+        const commentToDelete = await dbContext.Comment.findById(commentId)
+
+        if (commentToDelete == null) {
+            throw new Error(`Invalid comment id: ${commentId}`)
+        }
+        if (commentToDelete.creatorId != userId) {
+            throw new Forbidden("You are not allowed to delete someone elses comment")
+        }
+        await commentToDelete.deleteOne()
+        return 'Comment had been deleted'
+    }
 }
 export const commentService = new CommentService()

@@ -21,8 +21,10 @@ class TowerEventService {
 
     async editEvents(eventId, updateData, userId) {
         const event = await dbContext.TowerEvent.findById(eventId)
+
         if (!event) throw new Error(`Can not edit this: ${eventId}`)
         if (userId != event.creatorId) throw new Forbidden("Can't update this creators event")
+        if (event.isCanceled) throw new Error("Sorry denied")
         if (updateData.description) event.description = updateData.description
         event.description = updateData.description ?? event.description
         if (updateData.name) event.name = updateData.name
@@ -31,8 +33,9 @@ class TowerEventService {
         return event
     }
 
-    async cancelEvent(eventId) {
+    async cancelEvent(eventId, userId) {
         const eventToCancel = await this.getEventsById(eventId)
+        if (userId != eventToCancel.creatorId) throw new Forbidden("Boop nope")
         eventToCancel.isCanceled = !eventToCancel.isCanceled
         await eventToCancel.save()
         return eventToCancel
