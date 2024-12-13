@@ -14,6 +14,7 @@ export class TowerEvent {
         this.type = data.type
         this.updatedAt = data.updatedAt
         this.creator = data.creator
+        // this.event = data.event
     }
 
 }

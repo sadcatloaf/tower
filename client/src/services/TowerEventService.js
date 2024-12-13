@@ -6,7 +6,7 @@ import { TowerEvent } from "@/models/TowerEvent.js";
 
 class TowerEventService {
     async cancelEvent(eventId) {
-        const response = await api.delete(`api/event/${eventId}`)
+        const response = await api.delete(`api/events/${eventId}`)
         logger.log('Canceled Event', response.data)
         const event = new TowerEvent(response.data)
         AppState.activeEvent = event
