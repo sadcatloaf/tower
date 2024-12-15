@@ -13,6 +13,7 @@ const event = computed(() => AppState.activeEvent)
 const account = computed(() => AppState.account)
 const ticketAttendees = computed(() => AppState.ticketAttendees)
 const attending = computed(() => ticketAttendees.value.some(ticketAttendee => ticketAttendee.accountId == account.value?.id))
+const comments = computed(() => AppState.comments)
 
 const route = useRoute()
 
@@ -87,7 +88,7 @@ async function getCommentsByCreatorId() {
 </script>
 
 <template>
-    <div v-if="event" class="container">
+    <div v-if="event" class="container-fluid">
         <section class="row">
             <div class="col-mb-12 justify-content-center">
                 <img :src="event.coverImg" alt="event.creator.name" class="img-fluid">
@@ -95,20 +96,24 @@ async function getCommentsByCreatorId() {
             </div>
         </section>
         <section class="row justify-content-start">
-            <div class="col-7 m-3">
-                <h2>{{ event.name }}</h2>
-                <p>{{ event.description }}</p>
-                <h4>Date and Time</h4>
-                <p>{{ event.startDate }}</p>
-                <h4>Location</h4>
-                <p>{{ event.location }}</p>
-                <h4>Event Capacity</h4>
-                <p>{{ event.capacity }}</p>
-                <h4>Remaining Tickets</h4>
-                <!-- TODO do some math here -->
-                <!-- <p>{{ event.capacity }}</p> -->
+            <div class="col-mb-5 m-3">
+                <div>
+                    <h2>{{ event.name }}</h2>
+                    <p>{{ event.description }}</p>
+                    <h4>Date and Time</h4>
+                    <p>{{ event.startDate }}</p>
+                    <h4>Location</h4>
+                    <p>{{ event.location }}</p>
+                    <h4>Event Capacity</h4>
+                    <p>{{ event.capacity }}</p>
+                    <h4>Type</h4>
+                    <p>{{ event.type }}</p>
+                </div>
+                <div v-for="comment in comments" :key="comment.id">
+                    {{ comments }}
+                </div>
             </div>
-            <div class="col-4 m-3">
+            <div v-if="!event.isCanceled" class="col-mb-8 m-3">
                 <div>
                     <h4>Interested in going?</h4>
                     <p>Grab a ticket!</p>
@@ -128,6 +133,7 @@ async function getCommentsByCreatorId() {
                             class="img-fluid rounded" :title="ticketAttendee.profile.name">
                     </div>
                 </div>
+                <h5>Remaining Tickets</h5>
                 <b>{{ event?.capacity - ticketAttendees.length }} spots left</b>
             </div>
             <div class="d-flex justify-content-end">
