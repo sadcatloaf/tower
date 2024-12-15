@@ -4,7 +4,7 @@ import { dbContext } from "../db/DbContext";
 class TicketService {
     async createTicket(ticketData) {
         const ticket = await dbContext.Ticket.create(ticketData)
-        await ticket.populate('profile', 'name coverImg')
+        await ticket.populate('profile', 'name picture')
         await ticket.populate('event')
         return ticket
     }
@@ -17,7 +17,7 @@ class TicketService {
     }
 
     async getTicketsById(eventId) {
-        const tickets = await dbContext.Ticket.find({ eventId: eventId }).populate('profile', 'name coverImg')
+        const tickets = await dbContext.Ticket.find({ eventId: eventId }).populate('profile', 'name picture')
         return tickets
     }
 

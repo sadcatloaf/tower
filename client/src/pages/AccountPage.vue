@@ -23,6 +23,21 @@ async function getMyTickets() {
 
 }
 
+async function deleteTicket(ticketId) {
+  try {
+    const yes = await Pop.confirm('Are you sure you want to UnAttend this event?')
+
+    if (!yes) return
+
+    await ticketService.deleteTicket(ticketId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.error('[Delete Ticket]', error)
+  }
+
+}
+
 </script>
 
 <template>
@@ -35,8 +50,11 @@ async function getMyTickets() {
       <h1 class="text-center">Loading... <i class="mdi mdi-loading mdi-spin"></i></h1>
     </div>
     <section class="row">
-      <div v-for="ticket in tickets" :key="ticket.id">
+      <div v-for="ticket in tickets" :key="ticket.id" class="col-mb-3 m-3 img-fluid">
         <TowerEventCard :event="ticket.event" />
+        <div>
+          <button @click="deleteTicket(ticket.id)">UnAttend</button>
+        </div>
       </div>
     </section>
     <div>

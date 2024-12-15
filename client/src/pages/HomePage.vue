@@ -49,7 +49,7 @@ onMounted(() => {
   <div class=" container">
     <section class="row">
       <div class="col-mb-12 background-img">
-        <div class="col-8 text-light">
+        <div class="col-mb-8 text-light">
           <h2 class="m-2 p-3">Event management for people,by people</h2>
           <p class="m-4 p-2">Whatever your interest, from hiking and reading to networking and skill sharing, there are
             thousands of
@@ -57,13 +57,12 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="col-12 m-3">
+      <div class="col-mb-12 m-3">
         <h3>How Tower works</h3>
-
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eventModal">Create Event</button>
       </div>
 
-      <div class="d-flex m-3 p-2 text-center">
+      <div class="col-mb-3 d-flex m-3 p-2 text-center">
         <div v-for="category in categories" :key="'filter-' + category.name" class=" m-3">
           <div @click="activeFilterCategory = category.name" role="button">
             <span :class="category.icon"></span>
@@ -72,14 +71,13 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class=" m-3">
+      <div class="col-mb-3">
         <h3>Upcoming Events</h3>
-      </div>
+        <div v-for="event in events" :key="event.id">
+          <TowerEventCard :event="event" />
+        </div>
 
-      <div v-for="event in events" :key="event.id" class="col-3 m-3">
-        <TowerEventCard :event="event" />
       </div>
-
     </section>
   </div>
   <ModalWrapper />

@@ -18,6 +18,20 @@ class TicketService {
         const ticket = new Ticket(response.data)
         AppState.ticketAttendees.push(ticket)
     }
+
+    async getTicketProfilesByEventId(eventId) {
+        const response = await api.get(`api/events/${eventId}/tickets`)
+        logger.log('Got ticket profile', response.data)
+        const tickets = response.data.map(ticketPOJO => new Ticket(ticketPOJO))
+        AppState.ticketAttendees = tickets
+    }
+
+    async deleteTicket(ticketId) {
+        const response = await api.delete(`api/tickets/${ticketId}`)
+        logger.log('Delete Ticket', response.data)
+        const ticketIndex = AppState.tickets.findIndex(ticket => ticket.id == ticketId)
+        AppState.tickets.splice(ticketIndex, 1)
+    }
 }
 
 export const ticketService = new TicketService()
