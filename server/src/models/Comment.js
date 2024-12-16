@@ -1,10 +1,11 @@
 import { Schema } from "mongoose"
+import { AccountSchema } from "./Account"
 
 export const CommentSchema = new Schema(
     {
         body: { type: String, required: true },
         creatorId: { type: Schema.Types.ObjectId, ref: 'Profile', required: true },
-        eventId: { type: Schema.Types.ObjectId, ref: 'TowerEvent', required: true }
+        eventId: { type: Schema.Types.ObjectId, ref: 'TowerEvent', required: true },
     },
     { timestamps: true, toJSON: { virtuals: true } }
 )

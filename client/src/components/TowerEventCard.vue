@@ -16,7 +16,7 @@ defineProps({
     <div v-if="event.creator">
         <span>{{ event.creator.name }}</span>
     </div>
-    <span>{{ event.startDate }} - {{ event.location }}</span>
+    <span>{{ event.startDate.toLocaleDateString() }} - {{ event.location }}</span>
     <span>{{ event.capacity }}</span>
 </template>
 

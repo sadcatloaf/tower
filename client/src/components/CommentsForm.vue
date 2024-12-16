@@ -10,7 +10,9 @@ const route = useRoute()
 
 const editableCommentData = ref({
     body: '',
-    eventId: ''
+    eventId: '',
+    creatorId: '',
+    creator: '',
 })
 
 async function createComment() {
@@ -21,7 +23,9 @@ async function createComment() {
 
         editableCommentData.value = {
             body: '',
-            eventId: ''
+            eventId: '',
+            creatorId: '',
+            creator: '',
         }
     }
     catch (error) {

@@ -1,6 +1,7 @@
 <script setup>
 import { AppState } from '@/AppState';
 import CommentsForm from '@/components/CommentsForm.vue';
+import { Commented } from '@/models/Comment';
 import { commentsService } from '@/services/CommentsService';
 import { ticketService } from '@/services/TicketService';
 import { towerEventService } from '@/services/TowerEventService';
@@ -16,7 +17,14 @@ const ticketAttendees = computed(() => AppState.ticketAttendees)
 const attending = computed(() => ticketAttendees.value.some(ticketAttendee => ticketAttendee.accountId == account.value?.id))
 const comments = computed(() => AppState.comments)
 
+
 const route = useRoute()
+
+
+// const props = defineProps({
+//     commentProp: { type: Commented, required: true }
+// })
+
 
 
 watch(route, () => {
@@ -77,9 +85,8 @@ async function getTicketProfilesByEventId() {
 
 async function getCommentsByCreatorId() {
     try {
-        const creatorId = route.params.creatorId
-        console.log('Creator Id', creatorId)
-        await commentsService.getCommentsByCreatorId(creatorId)
+        const eventId = route.params.eventId
+        await commentsService.getCommentsByCreatorId(eventId)
     }
     catch (error) {
         Pop.meow(error);
@@ -87,6 +94,18 @@ async function getCommentsByCreatorId() {
     }
 }
 
+async function deleteComment(commentId) {
+    try {
+        const message = 'Are you sure you want to delete this comment?'
+        const confirmed = await Pop.confirm(message)
+        if (!confirmed) { return }
+        await commentsService.deleteComment(commentId)
+    }
+    catch (error) {
+        Pop.meow(error);
+        logger.error('[deleting comment]', error)
+    }
+}
 </script>
 
 <template>
@@ -103,19 +122,13 @@ async function getCommentsByCreatorId() {
                     <h2>{{ event.name }}</h2>
                     <p>{{ event.description }}</p>
                     <h4>Date and Time</h4>
-                    <p>{{ event.startDate }}</p>
+                    <p>{{ event.startDate.toDateString() }}</p>
                     <h4>Location</h4>
                     <p>{{ event.location }}</p>
                     <h4>Event Capacity</h4>
                     <p>{{ event.capacity }}</p>
                     <h4>Type</h4>
                     <p>{{ event.type }}</p>
-                </div>
-            </div>
-            <div>
-                <CommentsForm />
-                <div v-for="comment in comments" :key="comment.id">
-                    <p>{{ comments.body }}</p>
                 </div>
             </div>
             <div v-if="!event.isCanceled" class="col-mb-8 m-3">
@@ -145,6 +158,17 @@ async function getCommentsByCreatorId() {
                 <span @click="cancelEvent()" class="bg-danger rounded-pill p-2" role="button">Cancel</span>
             </div>
         </section>
+        <div>
+            <CommentsForm />
+            <div v-for="comment in comments" :key="comment.id">
+                <p>{{ comment.creator.picture }} {{ comment.creator.name }} <br> {{ comment.body }}</p>
+                <div class="text-end m-4">
+                    <button @click="deleteComment(comment.id)" v-if="comment.creatorId == account?.id">Delete
+                        Comment</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
