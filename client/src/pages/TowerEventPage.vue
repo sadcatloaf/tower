@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState';
+import CommentsForm from '@/components/CommentsForm.vue';
 import { commentsService } from '@/services/CommentsService';
 import { ticketService } from '@/services/TicketService';
 import { towerEventService } from '@/services/TowerEventService';
@@ -76,8 +77,9 @@ async function getTicketProfilesByEventId() {
 
 async function getCommentsByCreatorId() {
     try {
-        const eventId = route.params.eventId
-        await commentsService.getCommentsByCreatorId(eventId)
+        const creatorId = route.params.creatorId
+        console.log('Creator Id', creatorId)
+        await commentsService.getCommentsByCreatorId(creatorId)
     }
     catch (error) {
         Pop.meow(error);
@@ -109,8 +111,11 @@ async function getCommentsByCreatorId() {
                     <h4>Type</h4>
                     <p>{{ event.type }}</p>
                 </div>
+            </div>
+            <div>
+                <CommentsForm />
                 <div v-for="comment in comments" :key="comment.id">
-                    {{ comments }}
+                    <p>{{ comments.body }}</p>
                 </div>
             </div>
             <div v-if="!event.isCanceled" class="col-mb-8 m-3">
